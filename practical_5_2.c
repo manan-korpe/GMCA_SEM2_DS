@@ -1,6 +1,7 @@
-// Create a “Queue” user-defined structure with the following data members: 1. A Data 2. A link to the next node 
-// Perform the following operations on Simple queue using user-defined functions: 1. Insert an element 
-// 2. Remove an element 3. Display 4. Isfull 5. Isempty Create a file which stores all values of list. 
+
+// Create a “Circular Queue” user-defined structure with the following data members: 1. A Data 2. A link to the next node
+// Perform the following operations on Circular queue using userdefined functions: 1. Insert an element 
+// 2. Remove an element 3. Display 4. Isfull 5. Isempty Create a file which stores all values of list
 
 #include<stdio.h>
 #include<stdlib.h>
@@ -13,57 +14,6 @@ struct Node{
 struct Node *front = NULL;
 struct Node *rear = NULL;
 
-void enqueue(){
-    struct Node *newNode = (struct Node*)malloc(sizeof(struct Node));
-
-    if(newNode == NULL){
-        printf("Queue is Full <Memory not available>\n");
-        return;
-    }
-
-    printf("Enter value: ");
-    scanf("%d", &newNode->data);
-    newNode->next = NULL;
-
-    if(front == NULL){
-        front = rear = newNode;
-    } else {
-        rear->next = newNode;
-        rear = newNode;
-    }
-}
-
-int dequeue(){
-    if(front == NULL){
-        printf("Queue is Empty\n");
-        return -1;
-    }
-
-    struct Node *temp = front;
-    int val = temp->data;
-
-    front = front->next;
-    if(front == NULL) rear = NULL;
-
-    free(temp);
-    return val;
-}
-
-void display(){
-    if(front == NULL){
-        printf("Queue is Empty\n");
-        return;
-    }
-
-    struct Node *temp = front;
-    printf("Queue: ");
-    while(temp != NULL){
-        printf("%d -> ", temp->data);
-        temp = temp->next;
-    }
-    printf("NULL\n");
-}
-
 int isEmpty(){
     return front == NULL;
 }
@@ -75,18 +25,81 @@ int isFull(){
     return 0;
 }
 
+void enqueue(){
+    struct Node *newNode = (struct Node*)malloc(sizeof(struct Node));
+
+    if(newNode == NULL){
+        printf("Queue is Full (Memory not available)\n");
+        return;
+    }
+
+    printf("Enter value: ");
+    scanf("%d", &newNode->data);
+
+    if(front == NULL){
+        front = rear = newNode;
+        rear->next = front; 
+    } else {
+        rear->next = newNode;
+        rear = newNode;
+        rear->next = front;   
+    }
+}
+
+// Dequeue
+int dequeue(){
+    if(isEmpty()){
+        printf("Queue is Empty\n");
+        return -1;
+    }
+
+    int val;
+    struct Node *temp = front;
+
+    if(front == rear){
+        val = front->data;
+        front = rear = NULL;
+    } else {
+        val = front->data;
+        front = front->next;
+        rear->next = front;   
+    }
+
+    free(temp);
+    return val;
+}
+
+void display(){
+    if(isEmpty()){
+        printf("Queue is Empty\n");
+        return;
+    }
+
+    struct Node *temp = front;
+    printf("Queue: ");
+
+    do{
+        printf("%d -> ", temp->data);
+        temp = temp->next;
+    }while(temp != front);
+
+    printf("(back to front)\n");
+}
+
 void save(){
-    FILE *fp = fopen("queue_linked.txt", "w");
+    FILE *fp = fopen("circular_linked_queue.txt", "w");
 
     if(fp == NULL){
         printf("Error opening file\n");
         return;
     }
 
-    struct Node *temp = front;
-    while(temp != NULL){
-        fprintf(fp, "%d ", temp->data);
-        temp = temp->next;
+    if(!isEmpty()){
+        struct Node *temp = front;
+        do{
+            fprintf(fp, "%d ", temp->data);
+            temp = temp->next;
+        }while(temp != front);
     }
 
     fclose(fp);
@@ -97,7 +110,7 @@ int main(){
     int ch, val;
 
     while(1){
-        printf("\n1.Enqueue  2.Dequeue  3.Display  4.isEmpty  5.isFull  6.Save  7.Exit\n");
+        printf("\n1.Enqueue 2.Dequeue 3.Display 4.isEmpty 5.isFull 6.Save 7.Exit\n");
         printf("Enter choice: ");
         scanf("%d", &ch);
 
