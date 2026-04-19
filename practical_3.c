@@ -18,8 +18,16 @@ void init(struct Queue *q){
     q->front = q->rear = -1;
 }
 
+int isFull(struct Queue *q){
+    return q->rear == q->size - 1;
+}
+
+int isEmpty(struct Queue *q){
+    return q->front == -1 || q->front > q->rear;
+}
+
 void enqueue(struct Queue *q){
-    if(q->rear >= q->size - 1){
+    if(isFull(q)){
         printf("Queue overflow");
         return;
     }
@@ -34,21 +42,13 @@ void enqueue(struct Queue *q){
 }
 
 int dequeue(struct Queue *q){
-    if(q->front == -1 || q->front > q->rear){
+    if(isEmpty(q)){
         printf("Queue underflow");
         return -1;
     }
 
     return q->arr[q->front++];
 
-}
-
-int isEmpty(struct Queue *q){
-    return q->front == -1 || q->front > q->rear;
-}
-
-int isFull(struct Queue *q){
-    return q->rear == q->size - 1;
 }
 
 int save(struct Queue *q) {
