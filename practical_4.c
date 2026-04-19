@@ -13,10 +13,21 @@ struct Node{
 struct Node *front = NULL;
 struct Node *rear = NULL;
 
+int isEmpty(){
+    return front == NULL;
+}
+
+int isFull(){
+    struct Node *temp = (struct Node*)malloc(sizeof(struct Node));
+    if(temp == NULL) return 1;
+    free(temp);
+    return 0;
+} 
+
 void enqueue(){
     struct Node *newNode = (struct Node*)malloc(sizeof(struct Node));
 
-    if(newNode == NULL){
+    if(isFull()){
         printf("Queue is Full <Memory not available>\n");
         return;
     }
@@ -34,7 +45,7 @@ void enqueue(){
 }
 
 int dequeue(){
-    if(front == NULL){
+    if(isEmpty()){
         printf("Queue is Empty\n");
         return -1;
     }
@@ -50,7 +61,7 @@ int dequeue(){
 }
 
 void display(){
-    if(front == NULL){
+    if(isEmpty()){
         printf("Queue is Empty\n");
         return;
     }
@@ -64,17 +75,6 @@ void display(){
     printf("NULL\n");
 }
 
-int isEmpty(){
-    return front == NULL;
-}
-
-int isFull(){
-    struct Node *temp = (struct Node*)malloc(sizeof(struct Node));
-    if(temp == NULL) return 1;
-    free(temp);
-    return 0;
-}
-
 void save(){
     FILE *fp = fopen("queue_linked.txt", "w");
 
@@ -82,13 +82,11 @@ void save(){
         printf("Error opening file\n");
         return;
     }
-
     struct Node *temp = front;
     while(temp != NULL){
         fprintf(fp, "%d ", temp->data);
         temp = temp->next;
     }
-
     fclose(fp);
     printf("Queue saved to file successfully\n");
 }
@@ -103,30 +101,25 @@ int main(){
 
         switch(ch){
             case 1: enqueue(); break;
-
             case 2:
                 val = dequeue();
                 if(val != -1)
                     printf("Removed: %d\n", val);
                 break;
-
             case 3: display(); break;
-
             case 4:
                 if(isEmpty()) printf("Queue is Empty\n");
                 else printf("Queue is not Empty\n");
                 break;
-
             case 5:
                 if(isFull()) printf("Queue is Full\n");
                 else printf("Queue is not Full\n");
                 break;
-
             case 6: save(); break;
-
             case 7: exit(0);
-
             default: printf("Invalid choice\n");
         }
     }
+    return 0;
 }
+

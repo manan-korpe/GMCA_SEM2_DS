@@ -17,8 +17,10 @@ struct Node* create(){
     for(int i = 0; i < n; i++){
         newNode = (struct Node*)malloc(sizeof(struct Node));
 
-        printf("Enter coefficient and exponent: ");
-        scanf("%d %d", &newNode->coeff, &newNode->exp);
+        printf("Enter coefficient : ");
+        scanf("%d", &newNode->coeff);
+        printf("Enter exponent: ");
+        scanf("%d", &newNode->exp);
         newNode->next = NULL;
 
         if(head == NULL){
@@ -197,3 +199,4 @@ int main(){
 
     return 0;
 }
+

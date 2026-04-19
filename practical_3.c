@@ -62,21 +62,17 @@ int save(struct Queue *q) {
     for(int i = q->front; i <= q->rear; i++){
         fprintf(fp, "%d ", q->arr[i]);
     }
-
-
     fprintf(fp, "\n");
     fclose(fp);
     printf("Queue Saved in File successfuly.");
     return 0;
 }
 
-
 void display(struct Queue *q){
     if(isEmpty(q)){
         printf("Queue is empty");
         return;
     }
-
     printf("Queue is : ");
     for(int i = q->front; i<=q->rear;i++){
         printf("%d | ",q->arr[i]);
@@ -85,7 +81,6 @@ void display(struct Queue *q){
 
 int main(){
     struct Queue q;
-
     printf("Enter size of queue (max %d): ", MAX);
     scanf("%d", &q.size);
 
@@ -93,9 +88,7 @@ int main(){
         printf("Invalid size!\n");
         return 0;
     }
-
     init(&q);
-
     int ch, x;
     while(1){
         printf("\n1:enqueue\t2:dequeue\t3:display\t4:isEmpty\t5:isFull\t6:save\t7:exit\nEnter Choice : ");
@@ -130,6 +123,5 @@ int main(){
             break;
         }
     }
-
     return 0;
 }

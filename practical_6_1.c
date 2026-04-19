@@ -152,7 +152,7 @@ int main(){
     struct Node *copy = NULL;
 
     while(1){
-        printf("\n1.Insert First\n2.Insert End\n3.Insert Sorted\n4.Delete by Position\n5.Display\n6.Copy List\n7.Save\n8.Exit\n");
+        printf("1.Insert First\t2.Insert End\t3.Insert Sorted\t4.Delete by Position\t5.Display\t6.Copy List\t7.Save\t8.Exit\n");
         printf("Enter choice: ");
         scanf("%d", &ch);
 
